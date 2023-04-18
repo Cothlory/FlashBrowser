@@ -67,11 +67,6 @@
         var lastArgument = window.process.argv[length - 1]
         if (lastArgument && lastArgument.indexOf("file:///") == 0) {
             console.log(lastArgument);
-            //lastArgument = 'file:///D:/FlashPM/FlashBrowser-master/AS3.html';
-            //lastArgument = 'file:///D:/FlashPM/FlashBrowser-master/noimage.swf';
-            //var path2 = lastArgument.replace(/\\/g, "/");
-            //path2 = 'file:///' + path2;
-            // open a local file, and use a custom icon
             enav.newTab(lastArgument, {
                 title: 'Local file'
             })
@@ -87,9 +82,6 @@
         else {
             enav.newTab('https://search.flash.pm/', { icon: "clear" });
         }
-
-
-
 
     </script>
 </body>

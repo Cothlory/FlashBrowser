@@ -79,7 +79,6 @@ const menu = Menu.buildFromTemplate(template);
 Menu.setApplicationMenu(menu);
 
 app.on('ready', () => {
-
     let { width, height, isMax } = store.get('windowBounds');
     let filePath = 'filePath';
     console.log("inti param" + process.argv);
@@ -100,8 +99,6 @@ app.on('ready', () => {
         height = 500;
     }
 
-
-
     mainWindow = new BrowserWindow({
         width: width,
         height: height,
@@ -118,24 +115,18 @@ app.on('ready', () => {
         }
     });
 
-
-
-
     mainWindow.loadURL(`file://${__dirname}/browser.html`);
-
 
     // Modify the user agent for all requests to the following urls.
     const filter = {
         urls: ['https://*.darkorbit.com/*', 'https://*.whatsapp.com/*']
     }
     mainWindow.webContents.session.webRequest.onBeforeSendHeaders(filter, (details, callback) => {
-
         details.requestHeaders['X-APP'] = app.getVersion();
         details.requestHeaders['User-Agent'] = 'BigpointClient/1.4.6';
         if (details.url.indexOf("whatsapp") > 0) {
             details.requestHeaders['User-Agent'] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15";
         }
-
 
         callback({ requestHeaders: details.requestHeaders })
     });
@@ -146,28 +137,20 @@ app.on('ready', () => {
         mainWindow = null;
     });
 
-
-
-
     mainWindow.once('ready-to-show', () => {
         if (isMax) {
             if (process.platform === "win32") {
                 mainWindow.maximize();
-
             }
             else {
                 mainWindow.setFullScreen(true)
             }
-
-
         }
         mainWindow.show()
     })
 
-
     // Upper Limit is working of 500 %
     mainWindow.webContents.setVisualZoomLevelLimits(1, 5).then(console.log("Zoom Levels Have been Set between 100% and 500%")).catch((err) => console.log(err));
-
 
     mainWindow.on('resize', () => {
         var isMax = mainWindow.isMaximized() || mainWindow.isFullScreen()
@@ -181,9 +164,7 @@ app.on('ready', () => {
             let { width, height } = mainWindow.getBounds();
             store.set('windowBounds', { width, height, isMax });
         }
-
     });
-
 
     app.on('browser-window-focus', () => {
         globalShortcut.register('CTRL+SHIFT+q', () => {
@@ -191,7 +172,6 @@ app.on('ready', () => {
             NAV.newTab('https://www.flash.pm/browser/preview', {
                 close: false,
                 icon: NAV.TAB_ICON,
-
             });
         });
 
@@ -206,8 +186,6 @@ app.on('ready', () => {
         globalShortcut.register("Escape", () => mainWindow.setFullScreen(true));
         ipcMain.on('fullScreen-click', toggleWindowFullScreen);
 
-
-
         ipcMain.on('clearChache-click', clearCacheFunction);
         function clearCacheFunction() {
             let session = mainWindow.webContents.session;
@@ -215,7 +193,6 @@ app.on('ready', () => {
             app.relaunch();
             app.exit();
         }
-
 
         globalShortcut.register("CTRL+SHIFT+I", () => {
             mainWindow.webContents.openDevTools();
@@ -241,11 +218,9 @@ app.on('ready', () => {
         globalShortcut.unregisterAll()
     })
 
-
     mainWindow.webContents.zoomFactor = 1;
     console.log("checkForUpdatesAndNotify");
     autoUpdater.checkForUpdatesAndNotify();
-
 
     var { ElectronBlocker } = require('@cliqz/adblocker-electron');
     var { fetch } = require('cross-fetch');
@@ -253,9 +228,6 @@ app.on('ready', () => {
         blocker.enableBlockingInSession(mainWindow.webContents.session);
         //console.log("--AddBlcoker started" + mainWindow.webContents.session);
     });
-
-
-
 
 });
 
@@ -270,7 +242,6 @@ function clearCache() {
     session.clearCache();
     app.relaunch();
     app.exit();
-
 };
 
 exports.sethome = (a) => homeSetter(a);
@@ -309,7 +280,6 @@ function removeFav(a) {
     store.set('favorites', fav2);
     settingsShow(true)
     console.log("removeFav" + a + fav2.length);
-
 };
 
 exports.showSettings = (a) => settingsShow(a);
@@ -318,7 +288,6 @@ function settingsShow(a) {
     let fav = store.get('favorites');
     mainWindow.webContents.send('ping', fav, a);
 };
-
 
 app.on('window-all-closed', () => {
     //if (process.platform !== 'darwin') {

@@ -27,7 +27,6 @@
 </div>
 
 <body>
-
     <div id="window-controls">
         <div class="button" id="min-button">
             <img class="icon"
@@ -50,11 +49,8 @@
                 draggable="false" />
         </div>
     </div>
-
     <div id="nav-body-tabs"></div>
-
     <div id="nav-body-ctrls"></div>
-
     <div id="nav-body-views"></div>
 
     <script>
@@ -79,7 +75,6 @@
                 return { options };
             }
         });
-
 
         function toggleFullscreen(event) {
             if (event.key === 'Escape') {
@@ -115,11 +110,6 @@
         let oldStyle2 = getComputedStyle(nav).display;
         let oldStyle3 = getComputedStyle(topspacer).display;
 
-
-
-
-
-
         const { clipboard } = require('electron');
         //clipboard.writeText('Example String');
         let clipboardStr = clipboard.readText();
@@ -148,13 +138,7 @@
             enav.newTab('https://search.flash.pm/', { icon: "clear" });
         }
 
-
-
-
-
         /// Set Favorite Button
-
-
         let setFavoriteButton = document.createElement("button");
         setFavoriteButton.id = 'fs-button';
         setFavoriteButton.innerHTML = '⭐️';
@@ -162,7 +146,6 @@
         setFavoriteButton.onclick = setFavorit;
         controls.appendChild(setFavoriteButton);
         function setFavorit(event) {
-
             let favURL = document.getElementById('nav-ctrls-url').value;
             console.log("set fav" + favURL);
             const { remote } = require('electron');
@@ -194,7 +177,6 @@
             webview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
             if (webview) {
                 webview.zoomFactor = webview.getZoomFactor() + 0.2//1
-
             }
         }
         let zoomOutButton = document.createElement("button");
@@ -210,9 +192,7 @@
             }
         }
 
-
         //FullScreen Buton
-
         let isFullScreen = false;
         let fsButton = document.createElement("button");
         fsButton.id = 'fs-button';
@@ -222,7 +202,6 @@
         controls.appendChild(fsButton);
 
         // Mute button
-
         let muteButton = document.createElement("button");
         muteButton.id = 'fs-button';
         muteButton.innerHTML = '🔊';
@@ -240,17 +219,10 @@
                     webview.setAudioMuted(true);
                     muteButton.innerHTML = '🔈';
                 }
-
-
             }
         }
 
-
-
-
-
         ///// Clear Cache Button ////
-
         let clearCachButton = document.createElement("button");
         clearCachButton.id = 'fs-button';
         clearCachButton.innerHTML = '🧹️';
@@ -265,7 +237,6 @@
         }
 
         /////Settings Button /////	
-
         let settingsButton = document.createElement("button");
         settingsButton.id = 'fs-button';
         settingsButton.innerHTML = '⚙️';
@@ -282,30 +253,6 @@
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         function jsfunction(e) {
             //console.log(e.target.href)
             e.preventDefault(); //optional);
@@ -316,10 +263,8 @@
         div.style = "display: none;";
         require('electron').ipcRenderer.on('ping', showHideSettings);
 
-
         function showHideSettings(event, message, refresh) {
             var div = document.getElementById('overlay');
-
 
             let ht = window.getComputedStyle(div, null).getPropertyValue("display");
             console.log("Ping" + ht)
@@ -339,7 +284,6 @@
             }
         }
 
-
         function makeUL(array) {
             // Create the list element:
             var list = document.createElement('ul');
@@ -353,7 +297,6 @@
                     a.href = array[i]
                     a.style = 'color:hotpink;font-size: 23px;'
                     a.onclick = jsfunction;
-
 
                     let btn = document.createElement("button");
                     btn.innerHTML = " remove";
@@ -375,16 +318,8 @@
                     list.appendChild(item);
                 }
             }
-
-            // Finally, return the constructed list:
             return list;
         }
-
-
-
-
-
-
 
         /// Suggest nav bar
         let navBar = document.getElementById('nav-ctrls-url')
@@ -392,16 +327,11 @@
         function checkFavorites(e) {
             console.log('checkFavorites');
 
-
-
-
-
             let listFavorites = store.get('favorites');
             let inputText = navBar.value;
             let deURL;
 
             for (var i = 0; i < listFavorites.length; i++) {
-
                 deURL = listFavorites[i].replace(/(^\w+:|^)\/\//, '');
                 deURL = deURL.replace("www.", "");
                 //console.log(i  + "  " + listFavorites[i] + "!" + deURL);
@@ -410,12 +340,9 @@
                     console.log("Fond it" + deURL)
                     navBar.value = deURL;
                     navBar.setSelectionRange(inputText.length, 999);
-
                 }
             }
-
         }
-
 
         //Find on Page	
         let finInwebview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
@@ -425,19 +352,10 @@
             parentElement: document.querySelector('#nav-body-views'), offsetTop: 70, boxBgColor: '#000000', boxShadowColor: '#111111'
         });
 
-
         ipcRenderer.on('on-find', (e, args) => {
-
-
-
             findInPage.openFindWindow();
             console.log(223 + document.querySelector('#nav-body-views'));
-
         })
-
-
-
-
 
         //Promote on last tab close:
         let closeTabBtns = document.getElementsByClassName("nav-tabs-tab")[0];
@@ -454,15 +372,8 @@
                     icon: enav.TAB_ICON,
 
                 });
-
-                //$('#nav-body-tabs').css({ opacity: 0.0 });
-                // $('#nav-body-tabs').hide()
-                // $('#nav-body-ctrls').hide()
-                //win.close();
             }
         };
-
-
     </script>
 </body>
 
