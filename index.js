@@ -7,7 +7,7 @@ const {
 } = require('electron');
 const { autoUpdater } = require("electron-updater");
 const path = require('path');
-const Store = require('./store.js');
+const Store = require('./store');
 const contextMenu = require('electron-context-menu');
 const { ipcMain } = require('electron');
 
