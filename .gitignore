@@ -1,11 +1,4 @@
-release_
-FlashBrowser-linux-arm64
-FlashBrowser-linux-armv7l
-FlashBrowser-linux-ia32
-FlashBrowser-linux-x64
-FlashBrowser-win32-arm64
-FlashBrowser-win32-ia32
-FlashBrowser-win32-x64
 flashver/
 node_modules/
 package-lock.json
+._package.json
