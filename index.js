@@ -213,7 +213,7 @@ app.on('ready', () => {
             console.log("CmdOrCtrl+");
             mainWindow.webContents.zoomFactor = mainWindow.webContents.getZoomFactor() + 0.2;
         });
-        globalShortcut.register("CmdOrCtrl+-", () => {
+        globalShortcut.register("CmdOrCtrl+6", () => {
             console.log("CmdOrCtrl-");
             mainWindow.webContents.zoomFactor = mainWindow.webContents.getZoomFactor() - 0.2;
         });
@@ -239,7 +239,6 @@ app.on('ready', () => {
         globalShortcut.unregisterAll()
     })
 
-    mainWindow.webContents.zoomFactor = 1;
     console.log("checkForUpdatesAndNotify");
     autoUpdater.checkForUpdatesAndNotify();
 
