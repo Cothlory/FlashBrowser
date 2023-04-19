@@ -111,9 +111,19 @@ app.on('ready', () => {
             plugins: true,
             contextIsolation: false,
             enableRemoteModule: true,
-            additionalArguments: [filePath]
+            additionalArguments: [filePath],
+            zoomFactor: 1,
+            nodeIntegration: true,
+            preload: path.resolve(path.join(__dirname, 'preload.js'))
         }
     });
+
+    // mainWindow.once('ready-to-show', () => {
+    //     mainWindow.webContents.setZoomFactor(1)
+    //     mainWindow.webContents.setZoomFactor(1)
+    //     mainWindow.show()
+    // })
+    
 
     mainWindow.loadURL(`file://${__dirname}/browser.html`);
 
