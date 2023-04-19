@@ -129,7 +129,8 @@ app.on('ready', () => {
 
     // Modify the user agent for all requests to the following urls.
     const filter = {
-        urls: ['https://*.darkorbit.com/*', 'https://*.whatsapp.com/*']
+        // urls: ['https://*.darkorbit.com/*', 'https://*.whatsapp.com/*']
+        urls: []
     }
     mainWindow.webContents.session.webRequest.onBeforeSendHeaders(filter, (details, callback) => {
         details.requestHeaders['X-APP'] = app.getVersion();
