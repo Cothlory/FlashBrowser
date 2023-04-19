@@ -214,7 +214,17 @@ app.on('ready', () => {
             mainWindow.webContents.zoomFactor = mainWindow.webContents.getZoomFactor() + 0.2;
         });
         globalShortcut.register("CmdOrCtrl+-", () => {
+            console.log("CmdOrCtrl-");
             mainWindow.webContents.zoomFactor = mainWindow.webContents.getZoomFactor() - 0.2;
+        });
+
+        globalShortcut.register("CmdOrCtrl+R", () => {
+            // console.log("CmdOrCtrl+R - reload");
+            mainWindow.webContents.reload();
+        });
+        globalShortcut.register("F5", () => {
+            // console.log("F5 - reload");
+            mainWindow.webContents.reload();
         });
 
         globalShortcut.register("CTRL+SHIFT+F10", () => {
