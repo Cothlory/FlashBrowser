@@ -94,6 +94,7 @@
                 topspacer.style.display = isFullScreen ? "none" : oldStyle3;
             }
         }
+
         window.addEventListener('keyup', toggleFullscreen, true);
 
         let nav = document.getElementById('nav-body-ctrls');
@@ -118,10 +119,10 @@
                 title: 'Local file'
             })
         }
-        else if (clipboardStr.indexOf("https://") == 0) {
-            enav.newTab(clipboardStr);
-            // mainWindow.show();
-        }
+        // else if (clipboardStr.indexOf("https://") == 0) {
+        //     enav.newTab(clipboardStr);
+        //     // mainWindow.show();
+        // }
         else if (home) {
             console.log("WE HAGE CUSTOM HOMEPAGE" + home);
             enav.newTab(home, { icon: "icons/restore-w-24.png" })
@@ -328,7 +329,6 @@
                 deURL = deURL.replace("www.", "");
                 //console.log(i  + "  " + listFavorites[i] + "!" + deURL);
                 if (e.keyCode != 8 && e.keyCode != 17 && !e.ctrlKey && deURL != inputText && deURL && deURL.indexOf(inputText) == 0) {
-
                     console.log("Fond it" + deURL)
                     navBar.value = deURL;
                     navBar.setSelectionRange(inputText.length, 999);
@@ -355,14 +355,11 @@
         closeTabBtns.addEventListener('click', closeTab);
         console.log("closeTabBtns A#");
         function closeTab(e) {
-
             console.log("CLOSE A#" + document.getElementsByClassName('nav-tabs-tab').length);
             if (document.getElementsByClassName('nav-tabs-tab').length == 1) {
-
                 enav.newTab('https://www.flash.pm/browser/preview', {
                     close: false,
                     icon: enav.TAB_ICON,
-
                 });
             }
         };
