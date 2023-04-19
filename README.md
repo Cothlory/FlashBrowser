@@ -1,10 +1,24 @@
-# ⚡ Electron DEV wanted, submit a pull request for:
+# FlashBrowser-linux
+
+## Install
+```bash
+git clone https://github.com/fm16191/FlashBrowser-linux
+cd FlashBrowser-linux
+npm install --legacy-peer-deps
+```
+
+## Run
+```bash
+npm run start
+```
+
+### ⚡ Electron DEV wanted, submit a pull request for:
  - Browsing History View
  - Downloads View
  - Extract from webpage SWF Button
  - Move Tab By Clicking and dragging funcionability
 
-# Setup instructions:
+### Setup instructions:
  - download & unzip code
  - install node.js use command line to navigate to the unziped folder 
  - npm install 
@@ -12,7 +26,7 @@
  ( flash player not included in the source code, you can get it from previous builds )
  
 
-# Flash Browser  (please give us a :star:)
+### Flash Browser  (please give us a :star:)
 A browser dedicating to supporting adobe flash. 
 Run flash player in browser on:
  
@@ -25,7 +39,7 @@ MacOS
 Linux (tested on Ubuntu)
 :link: [Download Installer](https://github.com/radubirsan/FlashBrowser/releases/tag/v0.01) ([Run flash on Ubuntu tutorial](https://flash.pm/2021/09/23/run-flash-player-on-linux-ubuntu-with-flashbrowser-in-14-steps/)) 
 
-# How do I use it?
+### How do I use it?
 How to Enable Adobe Flash Player on Chrome Browser?
 How to install flash player browser video:
 
@@ -42,14 +56,14 @@ You can run it from the command line (ex: FlashBrowser.exe D:\\Achilles.swf ) :
 <br/>![Captures](https://flash.pm/Capture.JPG)
 
 
-# Socials:
+### Socials:
 - Twitter: https://twitter.com/BrowserFlash
 - Telegram: https://t.me/Flash_EN
 - Discord: https://discord.gg/8nR2J7EcrV
 - Youtube https://www.youtube.com/@FlashisBack
 - e-mail flashblockchain@gmail.com
 
-# Flash Sites:
+### Flash Sites:
 
 | Description  | Link |
 | ------------- | ------------- |
@@ -69,6 +83,6 @@ You can run it from the command line (ex: FlashBrowser.exe D:\\Achilles.swf ) :
 
 
 
-# ! This is Alpha Software, please install on VM and do not log into any important accounts
+### ! This is Alpha Software, please install on VM and do not log into any important accounts
 [Download Count](https://hanadigital.github.io/grev/?user=radubirsan&repo=FlashBrowser2)
 
