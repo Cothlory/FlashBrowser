@@ -11,8 +11,11 @@ const Store = require('./store');
 const contextMenu = require('electron-context-menu');
 const { ipcMain } = require('electron');
 
+// Configure context menu with error handling for compatibility with electron-navigation
 contextMenu({
-    showSaveImageAs: true
+    showSaveImageAs: true,
+    // Prevent errors when electron-navigation passes webview instead of BrowserWindow
+    prepend: (defaultActions, params, browserWindow) => []
 });
 
 let mainWindow;
@@ -253,6 +256,12 @@ app.on('ready', () => {
         }
     });
 
+    ipcMain.on('remove-favorite', (event, index) => {
+        if (mainWindow && !mainWindow.isDestroyed()) {
+            removeFav(index);
+        }
+    });
+
     app.on('browser-window-focus', () => {
         globalShortcut.register('CTRL+SHIFT+q', () => {
             console.log(22321 + enav)
@@ -386,6 +395,10 @@ exports.showSettings = (a) => settingsShow(a);
 
 function settingsShow(a) {
     let fav = store.get('favorites');
+    // Ensure fav is always an array, even if undefined or not set
+    if (!fav || !Array.isArray(fav)) {
+        fav = [];
+    }
     mainWindow.webContents.send('ping', fav, a);
 };
 

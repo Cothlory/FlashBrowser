@@ -21,9 +21,9 @@
   },
   "license": "ISC",
   "devDependencies": {
+    "@electron/packager": "^19.0.1",
     "electron": "^10.4.7",
-    "electron-builder": "^26.0.12",
-    "@electron/packager": "^19.0.1"
+    "electron-builder": "^26.0.12"
   },
   "dependencies": {
     "@cliqz/adblocker-electron": "^1.34.0",
@@ -72,5 +72,10 @@
       "perMachine": false,
       "artifactName": "FlashBrowser.${ext}"
     }
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "electron"
+    ]
   }
 }

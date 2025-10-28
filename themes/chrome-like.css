@@ -235,7 +235,7 @@ body {
 
 #overlay {
   position: fixed; /* Sit on top of the page content */
-  display: 'visible'; /*Hidden by default */
+  display: none; /* Hidden by default */
   width: calc(100% - 300px); /* Full width (cover the whole page) */
   height: calc(100% - 65px); /* Full height (cover the whole page) */
   top: 65px;

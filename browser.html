@@ -257,26 +257,38 @@
             var div = document.getElementById('overlay');
 
             let ht = window.getComputedStyle(div, null).getPropertyValue("display");
-            console.log("Ping" + ht)
-            if (div.style.display === 'none' && !refresh) {
-                // Add the contents of options[0] to #foo:
+            console.log("showHideSettings called, current display: " + ht + ", refresh: " + refresh);
+            
+            if (ht === 'none' && !refresh) {
+                // Show settings and populate favorites
                 document.getElementById('favoritesDiv').innerHTML = "";
                 document.getElementById('favoritesDiv').appendChild(makeUL(message));
-                div.style = "display: visible;";
+                div.style.display = "block";
             }
             else if (refresh && ht === "block") {
+                // Refresh favorites list while keeping overlay visible
                 document.getElementById('favoritesDiv').innerHTML = "";
                 document.getElementById('favoritesDiv').appendChild(makeUL(message));
-                div.style = "display: visible;";
+                div.style.display = "block";
             }
             else {
-                div.style = "display: none;";
+                // Hide settings
+                div.style.display = "none";
             }
         }
 
         function makeUL(array) {
             // Create the list element:
             var list = document.createElement('ul');
+
+            // Guard against undefined or non-array input
+            if (!array || !Array.isArray(array) || array.length === 0) {
+                var item = document.createElement('li');
+                item.style = 'color:hotpink;font-size: 23px;text-align:center;';
+                item.textContent = 'No favorites yet. Add some sites!';
+                list.appendChild(item);
+                return list;
+            }
 
             for (var i = 0; i < array.length; i++) {
                 // Create the list item:
@@ -293,9 +305,7 @@
                     btn.id = i;
                     btn.style = "border: none; background: none; color: hotpink;  background-color: #222222;  margin-left: 30px; ";
                     btn.onclick = function (event) {
-                        const { remote } = require('electron');
-                        const mainProcess = remote.require('./index');
-                        mainProcess.removeFav(event.target.id); // 'Yay' 
+                        ipcRenderer.send('remove-favorite', event.target.id);
                     };
 
                     item.style = 'color:hotpink;font-size: 23px;'
@@ -346,20 +356,9 @@
             console.log(223 + document.querySelector('#nav-body-views'));
         })
 
-        //Promote on last tab close:
-        let closeTabBtns = document.getElementsByClassName("nav-tabs-tab")[0];
-        console.log("closeTabBtns " + closeTabBtns)
-        closeTabBtns.addEventListener('click', closeTab);
-        console.log("closeTabBtns A#");
-        function closeTab(e) {
-            console.log("CLOSE A#" + document.getElementsByClassName('nav-tabs-tab').length);
-            if (document.getElementsByClassName('nav-tabs-tab').length == 1) {
-                enav.newTab('https://www.flash.pm/browser/preview', {
-                    close: false,
-                    icon: enav.TAB_ICON,
-                });
-            }
-        };
+        // Note: Removed problematic closeTab listener that was triggering on tab clicks
+        // and causing unwanted navigation to flash.pm. The electron-navigation library
+        // handles tab closing internally.
 
         // Window controls
         const windowControls = document.getElementById('window-controls');
