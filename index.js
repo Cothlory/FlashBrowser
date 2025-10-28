@@ -49,6 +49,8 @@ switch (process.platform) {
         pluginName = 'flashver/PepperFlashPlayer.plugin'
         break
 }
+// Disable hardware acceleration to fix GL framebuffer errors on some Linux systems
+app.disableHardwareAcceleration();
 app.commandLine.appendSwitch("disable-renderer-backgrounding");
 if (process.platform !== "darwin") {
     app.commandLine.appendSwitch('high-dpi-support', "1");
