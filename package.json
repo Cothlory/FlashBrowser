@@ -2,7 +2,7 @@
   "name": "FlashBrowser",
   "productName": "Flash Browser",
   "description": "Browser For Flash Player Games",
-  "homepage": "https://www.flash.pm",
+  "homepage": "https://www.duckduckgo.com",
   "author": "AS3",
   "version": "1.0.0",
   "main": "index.js",
@@ -15,16 +15,17 @@
     "build3": "electron-packager . FlashBrowser --all --overwrite --icon=icon.ico",
     "build4": "electron-packager . FlashBrowser --all --overwrite --icon=icon.ico",
     "buildWin32": "electron-packager . FlashBrowser --platform=win32 --arch=ia32 --overwrite --icon=icon.ico --production --prune -p always",
-    "buildWin64": "electron-packager . FlashBrowser --platform=win32 --overwrite --icon=icon.ico -p always --prune-license nm-prune --force"
+    "buildWin64": "electron-packager . FlashBrowser --platform=win32 --overwrite --icon=icon.ico -p always --prune-license nm-prune --force",
+      "postinstall": "node ./scripts/create_shims.js"
   },
   "license": "ISC",
   "devDependencies": {
     "electron": "^10.4.7",
-    "electron-builder": "^24.2.1",
-    "electron-packager": "^17.1.1"
+    "electron-builder": "^26.0.12",
+    "@electron/packager": "^19.0.1"
   },
   "dependencies": {
-    "@cliqz/adblocker-electron": "^1.23.0",
+  "@cliqz/adblocker-electron": "^1.34.0",
     "cross-fetch": "^3.1.4",
     "electron-context-menu": "^3.1.1",
     "electron-find": "^1.0.7",
