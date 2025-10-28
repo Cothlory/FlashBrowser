@@ -364,16 +364,21 @@ exports.setFavorite = (a) => favoriteSetter(a);
 
 function favoriteSetter(a) {
     let fav = store.get('favorites');
-    if (fav && fav.indexOf(a) == -1) {
+    
+    // Initialize favorites array if it doesn't exist
+    if (!fav || !Array.isArray(fav)) {
+        fav = [];
+    }
+    
+    // Add to favorites if not already present
+    if (fav.indexOf(a) === -1) {
         fav.push(a);
         store.set('favorites', fav);
-        settingsShow(true)
+        settingsShow(true);
+        console.log("Added to favorites: " + a);
+    } else {
+        console.log("Already in favorites: " + a);
     }
-    else {
-        // fav = [a]
-    }
-
-    console.log("S url:" + fav.indexOf(a));
 };
 
 exports.removeFav = (a) => removeFav(a);
