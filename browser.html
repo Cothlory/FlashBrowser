@@ -237,12 +237,9 @@
         settingsButton.onclick = showSettings;
         controls.appendChild(settingsButton);
         function showSettings(event) {
-
             if (event.type === 'click') {
-                const { remote } = require('electron');
-                const mainProcess = remote.require('./index');
-                mainProcess.showSettings(); // 'Yay' 
-
+                const { ipcRenderer } = require('electron');
+                ipcRenderer.send('show-settings-request');
             }
         }
 
@@ -363,6 +360,44 @@
                 });
             }
         };
+
+        // Window controls
+        const windowControls = document.getElementById('window-controls');
+        
+        // Check initial window state
+        ipcRenderer.send('check-window-state');
+        ipcRenderer.on('window-state-checked', (event, isMaximized) => {
+            if (isMaximized) {
+                windowControls.classList.add('maximized');
+            } else {
+                windowControls.classList.remove('maximized');
+            }
+        });
+        
+        document.getElementById('min-button').addEventListener('click', () => {
+            ipcRenderer.send('minimize-window');
+        });
+
+        document.getElementById('max-button').addEventListener('click', () => {
+            ipcRenderer.send('maximize-window');
+        });
+
+        document.getElementById('restore-button').addEventListener('click', () => {
+            ipcRenderer.send('unmaximize-window');
+        });
+
+        document.getElementById('close-button').addEventListener('click', () => {
+            ipcRenderer.send('close-window');
+        });
+
+        // Listen for window state changes
+        ipcRenderer.on('window-maximized', () => {
+            windowControls.classList.add('maximized');
+        });
+
+        ipcRenderer.on('window-unmaximized', () => {
+            windowControls.classList.remove('maximized');
+        });
     </script>
 </body>
 

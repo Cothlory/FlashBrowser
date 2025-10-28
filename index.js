@@ -146,18 +146,30 @@ app.on('ready', () => {
 
     sendWindow("version", app.getVersion());
 
+    mainWindow.on('close', () => {
+        // Save window state before closing
+        try {
+            if (mainWindow && !mainWindow.isDestroyed()) {
+                const isMaximized = mainWindow.isMaximized();
+                const bounds = mainWindow.getBounds();
+                store.set('windowBounds', { 
+                    width: bounds.width, 
+                    height: bounds.height, 
+                    isMax: isMaximized 
+                });
+            }
+        } catch (err) {
+            console.error('Error saving window state:', err);
+        }
+    });
+
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
 
     mainWindow.once('ready-to-show', () => {
         if (isMax) {
-            if (process.platform === "win32") {
-                mainWindow.maximize();
-            }
-            else {
-                mainWindow.setFullScreen(true)
-            }
+            mainWindow.maximize();
         }
         mainWindow.show()
     })
@@ -166,16 +178,78 @@ app.on('ready', () => {
     mainWindow.webContents.setVisualZoomLevelLimits(1, 5).then(console.log("Zoom Levels Have been Set between 100% and 500%")).catch((err) => console.log(err));
 
     mainWindow.on('resize', () => {
-        var isMax = mainWindow.isMaximized() || mainWindow.isFullScreen()
-
-        if (isMax) {
-            console.log(isMax);
-            let { width, height, max } = store.get('windowBounds');
+        // Only save size when not maximized
+        if (!mainWindow.isMaximized() && !mainWindow.isFullScreen()) {
+            let { width, height } = mainWindow.getBounds();
+            let { isMax } = store.get('windowBounds');
             store.set('windowBounds', { width, height, isMax });
         }
-        else {
-            let { width, height } = mainWindow.getBounds();
-            store.set('windowBounds', { width, height, isMax });
+    });
+
+    // Listen for maximize/unmaximize events and notify renderer
+    mainWindow.on('maximize', () => {
+        // Save maximized state
+        let { width, height } = store.get('windowBounds');
+        store.set('windowBounds', { width, height, isMax: true });
+        mainWindow.webContents.send('window-maximized');
+    });
+
+    mainWindow.on('unmaximize', () => {
+        // Save unmaximized state and current size
+        let { width, height } = mainWindow.getBounds();
+        store.set('windowBounds', { width, height, isMax: false });
+        mainWindow.webContents.send('window-unmaximized');
+    });
+
+    // Register IPC handlers once at app startup
+    ipcMain.on('fullScreen-click', () => {
+        if (mainWindow && !mainWindow.isDestroyed()) {
+            mainWindow.setFullScreen(!mainWindow.isFullScreen());
+        }
+    });
+
+    ipcMain.on('clearChache-click', () => {
+        if (mainWindow && !mainWindow.isDestroyed()) {
+            let session = mainWindow.webContents.session;
+            session.clearCache();
+            app.relaunch();
+            app.exit();
+        }
+    });
+
+    ipcMain.on('show-settings-request', () => {
+        if (mainWindow && !mainWindow.isDestroyed()) {
+            settingsShow(false);
+        }
+    });
+
+    ipcMain.on('minimize-window', () => {
+        if (mainWindow && !mainWindow.isDestroyed()) {
+            mainWindow.minimize();
+        }
+    });
+
+    ipcMain.on('maximize-window', () => {
+        if (mainWindow && !mainWindow.isDestroyed()) {
+            mainWindow.maximize();
+        }
+    });
+
+    ipcMain.on('unmaximize-window', () => {
+        if (mainWindow && !mainWindow.isDestroyed()) {
+            mainWindow.unmaximize();
+        }
+    });
+
+    ipcMain.on('close-window', () => {
+        if (mainWindow && !mainWindow.isDestroyed()) {
+            mainWindow.close();
+        }
+    });
+
+    ipcMain.on('check-window-state', (event) => {
+        if (mainWindow && !mainWindow.isDestroyed()) {
+            event.reply('window-state-checked', mainWindow.isMaximized());
         }
     });
 
@@ -197,15 +271,6 @@ app.on('ready', () => {
         }
         globalShortcut.register("F11", toggleWindowFullScreen);
         globalShortcut.register("Escape", () => mainWindow.setFullScreen(false));
-        ipcMain.on('fullScreen-click', toggleWindowFullScreen);
-
-        ipcMain.on('clearChache-click', clearCacheFunction);
-        function clearCacheFunction() {
-            let session = mainWindow.webContents.session;
-            session.clearCache();
-            app.relaunch();
-            app.exit();
-        }
 
         globalShortcut.register("CTRL+SHIFT+I", () => {
             mainWindow.webContents.openDevTools();
@@ -238,8 +303,21 @@ app.on('ready', () => {
     })
 
     app.on('browser-window-blur', () => {
-        globalShortcut.unregisterAll()
+        try {
+            globalShortcut.unregisterAll();
+        } catch (err) {
+            console.error('Error unregistering shortcuts:', err);
+        }
     })
+
+    // Clean up shortcuts before app quits
+    app.on('will-quit', () => {
+        try {
+            globalShortcut.unregisterAll();
+        } catch (err) {
+            console.error('Error unregistering shortcuts on quit:', err);
+        }
+    });
 
     console.log("checkForUpdatesAndNotify");
     autoUpdater.checkForUpdatesAndNotify();
