@@ -1,9 +1,10 @@
 {
-  "name": "FlashBrowser",
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "flash-browser",
   "productName": "Flash Browser",
   "description": "Browser For Flash Player Games",
-  "homepage": "https://www.duckduckgo.com",
-  "author": "AS3",
+  "homepage": "https://github.com/Cothlory/FlashBrowser",
+  "author": "Cothlory",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -16,7 +17,7 @@
     "build4": "electron-packager . FlashBrowser --all --overwrite --icon=icon.ico",
     "buildWin32": "electron-packager . FlashBrowser --platform=win32 --arch=ia32 --overwrite --icon=icon.ico --production --prune -p always",
     "buildWin64": "electron-packager . FlashBrowser --platform=win32 --overwrite --icon=icon.ico -p always --prune-license nm-prune --force",
-      "postinstall": "node ./scripts/create_shims.js"
+    "postinstall": "node ./scripts/create_shims.js"
   },
   "license": "ISC",
   "devDependencies": {
@@ -25,7 +26,7 @@
     "@electron/packager": "^19.0.1"
   },
   "dependencies": {
-  "@cliqz/adblocker-electron": "^1.34.0",
+    "@cliqz/adblocker-electron": "^1.34.0",
     "cross-fetch": "^3.1.4",
     "electron-context-menu": "^3.1.1",
     "electron-find": "^1.0.7",
@@ -36,10 +37,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/radubirsan/FlashBrowser.git"
+    "url": "https://github.com/Cothlory/FlashBrowser-linux.git"
   },
   "build": {
-    "appId": "pm.flash.browser",
+    "appId": "com.cothlory.flashbrowser",
     "directories": {
       "buildResources": "resources",
       "flashver": "flashver",
@@ -48,7 +49,7 @@
     "publish": [
       {
         "provider": "github",
-        "owner": "comunity",
+        "owner": "Cothlory",
         "repo": "FlashBrowser"
       }
     ],

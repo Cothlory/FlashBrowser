@@ -78,6 +78,7 @@
 #nav-body-tabs {
   -webkit-app-region: drag;
   -webkit-user-select: none;
+  user-select: none;
   background: #202124;
   height: 30px;
   font-family: Lucida Grande, Arial, sans-serif;
@@ -193,9 +194,6 @@ background: #35363a;
   color: #f1f3f4;
 }
 
-.nav-tabs-title:hover {
-}
-
 .nav-tabs-close {
   -webkit-app-region: no-drag;
   width: 15px !important;
@@ -212,9 +210,6 @@ background: #35363a;
 .vl {
   border-left: 1px solid #505155;
   height: 22px;
-}
-
-.vl.active {
 }
 
 html,
